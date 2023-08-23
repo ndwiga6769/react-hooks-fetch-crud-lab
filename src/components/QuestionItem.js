@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffcet} from "react";
 
 function QuestionItem({ question }) {
   const { id, prompt, answers, correctIndex } = question;
@@ -8,7 +8,19 @@ function QuestionItem({ question }) {
       {answer}
     </option>
   ));
+ const [delet,setDelet] = useState()
 
+  function deleteItem(id) {
+    useEffcet(()=>{
+    fetch(`http://localhost:4000/questions ${id}`, {
+      method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => setDelet(data));
+    })
+    console.log(data)
+  
+  }
   return (
     <li>
       <h4>Question {id}</h4>
@@ -17,7 +29,7 @@ function QuestionItem({ question }) {
         Correct Answer:
         <select defaultValue={correctIndex}>{options}</select>
       </label>
-      <button>Delete Question</button>
+      <button onClick={deleteItem}>Delete Question</button>
     </li>
   );
 }
